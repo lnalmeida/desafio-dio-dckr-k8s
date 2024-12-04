@@ -1,0 +1,22 @@
+# Pastas de compilação
+bin/
+obj/
+out/
+publish/
+
+# Configurações de IDEs específicas do projeto
+.vscode/
+.vs/
+
+# Arquivos de log do projeto
+*.log
+
+# Arquivos de configuração de ambiente do projeto
+appsettings.Development.json
+
+# Arquivos de teste e cobertura
+coverage/
+TestResults/
+
+# Pacotes e dependências específicas
+packages/

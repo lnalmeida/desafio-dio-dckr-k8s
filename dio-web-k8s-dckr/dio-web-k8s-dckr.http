@@ -1,0 +1,6 @@
+@dio_web_k8s_dckr_HostAddress = http://localhost:5200
+
+GET {{dio_web_k8s_dckr_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

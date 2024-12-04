@@ -1,0 +1,48 @@
+# Pastas de compilação e build
+bin/
+obj/
+out/
+publish/
+dist/
+
+# Configurações de IDEs
+.vscode/
+.vs/
+.idea/
+*.suo
+*.user
+*.userprefs
+
+# Arquivos de log
+*.log
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Dependências
+packages/
+node_modules/
+
+# Configurações de ambiente
+*.env
+.env
+appsettings.Development.json
+
+# Arquivos de build Docker
+*.dockerfile.bak
+
+# Arquivos de estado do Kubernetes
+*.tfstate
+*.tfstate.*
+
+# Backups
+*.bak
+*~
+
+# Relatórios de teste e cobertura
+coverage/
+TestResults/
+
+# Arquivos de configuração de segurança
+*.pfx
