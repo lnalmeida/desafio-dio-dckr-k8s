@@ -1,0 +1,80 @@
+# Definição do Deployment para a aplicação
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Nome identificador do deployment
+  name: hello-world-deployment
+  # Labels para identificação e seleção
+  labels:
+    app: hello-world
+spec:
+  # Número de réplicas (pods) do deployment
+  replicas: 6  # 2 réplicas em cada nó de 3 nós
+  
+  # Seletor para identificar os pods gerenciados por este deployment
+  selector:
+    matchLabels:
+      app: hello-world
+  
+  # Template para criação dos pods
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      # Configuração de anti-afinidade para distribuir pods
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - hello-world
+                # Distribuir pods entre diferentes nós
+                topologyKey: kubernetes.io/hostname
+      
+      # Definição dos containers
+      containers:
+        - name: hello-world
+          # Referência à imagem usando variável de ambiente
+          image: gcr.io/${PROJECT_ID}/hello-world-api:v1
+          
+          # Portas expostas pelo container
+          ports:
+            - containerPort: 8080
+          
+          # Recursos computacionais
+          resources:
+            # Recursos mínimos requisitados
+            requests:
+              cpu: 250m     # 1/4 de um núcleo de CPU
+              memory: 256Mi # 256 Megabytes de memória
+            
+            # Limites máximos de recursos
+            limits:
+              cpu: 500m     # 1/2 de um núcleo de CPU
+              memory: 512Mi # 512 Megabytes de memória
+
+# Serviço para expor a aplicação
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world-service
+spec:
+  # Tipo LoadBalancer para acesso externo
+  type: LoadBalancer
+  
+  # Seletor para identificar os pods
+  selector:
+    app: hello-world
+  
+  # Mapeamento de portas
+  ports:
+    - protocol: TCP
+      port: 80        # Porta do serviço
+      targetPort: 8080 # Porta do container
